@@ -1,10 +1,23 @@
 import { Link } from "react-router-dom";
 import { Link as MuiLink  } from '@mui/material';
 import Auth from "./Auth";
+import { UseCreateUser } from "../../hooks/use-create-user";
 
 const signup = () => {
+
+    const [createUser] = UseCreateUser();
+
     return (
-        <Auth submitLabel = {"Signup"} onSubmit = {async () => { }}>
+        <Auth submitLabel={"Signup"} onSubmit={async ({email, password}) => {
+            await createUser({
+                variables: {
+                    createUserInput: {
+                        email,
+                        password
+                    }
+                }
+            });
+         }}>
             <Link to="/login" style={{ alignSelf: "center" }} >
                 <MuiLink>Login</MuiLink>
             </Link>
