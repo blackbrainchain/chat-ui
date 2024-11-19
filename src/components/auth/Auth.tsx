@@ -1,5 +1,7 @@
 import { Button, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetCurrentUser } from "../../hooks/use-get-current.user";
+import { useNavigate } from "react-router-dom";
 
 interface AuthProps {
     submitLabel: string;
@@ -10,7 +12,15 @@ interface AuthProps {
 
 const Auth = ({ submitLabel, onSubmit, children, error }: AuthProps) => {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState( "" );
+    const { data } = useGetCurrentUser();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (data?.currentUser) {
+           navigate("/");
+        }
+    }, [data, navigate]);
 
     return (
         <Stack spacing={3} sx={{
